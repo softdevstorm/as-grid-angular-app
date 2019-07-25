@@ -4,8 +4,12 @@
     class="ag-theme-balham"
     [columnDefs]="columnDefs"
     [defaultColDef]="defaultColDef"
-    [rowData]="rowData"
+    [rowSelection]="rowSelection"
+    [rowMultiSelectWithClick]="true"
+    [allowContextMenuWithControlKey]="true"
+    [getContextMenuItems]="getContextMenuItems"
     [overlayLoadingTemplate]="overlayLoadingTemplate"
+    [rowData]="rowData"
     (gridReady)="onGridReady($event)"
     >
 </ag-grid-angular>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import "ag-grid-enterprise";
 import { GridOptions } from "ag-grid-community";
 import { AgGridAngular } from 'ag-grid-angular';
 import { HttpClient } from '@angular/common/http';
@@ -18,6 +19,7 @@ export class MyGridApplicationComponent implements OnInit {
     private overlayLoadingTemplate;
     // private overlayNoRowsTemplate;
     private columnDefs;
+    private rowSelection ;
     private rowData = [];
 
     title = 'grid app';
@@ -27,32 +29,42 @@ export class MyGridApplicationComponent implements OnInit {
         private dataService: DataService
     ) {
         this.columnDefs = [
-        {
-            headerName: '', 
-            field: 'thumbnails', 
-            sortable: true, 
-            filter: true
-        },
-        {
-            headerName: 'Published on', 
-            field: 'publishedAt', 
-            sortable: true, 
-            filter: true
-        },
-        {
-            headerName: 'Video Title', 
-            field: 'title', 
-            sortable: true, 
-            filter: true,
-            cellRenderer: this.customCellRendererFunc
-        },
-        {
-            headerName: 'Description', 
-            field: 'description', 
-            sortable: true, 
-            filter: true
-        }
-    ];
+            {
+                headerName: '', 
+                field: '', 
+                headerCheckboxSelection: true,
+                checkboxSelection: true,
+                // filter: true
+            },
+            {
+                headerName: '', 
+                field: 'thumbnails', 
+                // sortable: true, 
+                // filter: true
+            },
+            {
+                headerName: 'Published on', 
+                field: 'publishedAt', 
+                // sortable: true, 
+                // filter: true
+            },
+            {
+                headerName: 'Video Title', 
+                field: 'title', 
+                // sortable: true, 
+                // filter: true,
+                cellRenderer: this.customCellRendererFunc
+            },
+            {
+                headerName: 'Description', 
+                field: 'description', 
+                // sortable: true, 
+                // filter: true
+            }
+        ];
+
+        this.rowSelection = "multiple";
+
 
         this.overlayLoadingTemplate = '<span class="ag-overlay-loading-center">Please wait while your rows are loading</span>';
         // this.overlayNoRowsTemplate = "<span style=\"padding: 10px; border: 2px solid #444; background: lightgoldenrodyellow;\">This is a custom 'no rows' overlay</span>";
@@ -87,10 +99,31 @@ export class MyGridApplicationComponent implements OnInit {
     }
 
     public customCellRendererFunc(params) {
-        console.log(params);
         let videoTitle = params.value.value;
         let videoId = params.value.id;
         return "<a href='https://www.youtube.com/watch?v=" + videoId + "'>" + videoTitle+ "</a>";
+    }
+
+    getContextMenuItems(params) {
+        var result: any = [
+            "copy",
+            "copyWithHeaders",
+            "paste"
+        ];
+        if (params.column.colId == "title") {
+            result = [
+                {
+                    name: "Open in new tab",
+                    action: function() {
+                        window.open("https://www.youtube.com/watch?v=" + params.value.id);
+                    },
+                },
+                "copy",
+                "copyWithHeaders",
+                "paste"
+            ]
+        } 
+        return result;
     }
 
 }
