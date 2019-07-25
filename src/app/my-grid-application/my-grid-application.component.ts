@@ -44,6 +44,7 @@ export class MyGridApplicationComponent implements OnInit {
             field: 'title', 
             sortable: true, 
             filter: true,
+            cellRenderer: this.customCellRendererFunc
         },
         {
             headerName: 'Description', 
@@ -68,19 +69,28 @@ export class MyGridApplicationComponent implements OnInit {
         
     }
 
-    private loadData() {
+    public loadData() {
         this.dataService.getData().subscribe(data => {
             let json_datas = data.items;
             for (var index in json_datas) {
                 let row = {};
                 row['thumbnails'] = json_datas[index]['snippet']['thumbnails']['default']['url'];
                 row['publishedAt'] = json_datas[index]['snippet']['publishedAt'];
-                row['title'] = json_datas[index]['snippet']['title'];
+                row['title'] = {};
+                row['title']['value'] = json_datas[index]['snippet']['title'];
+                row['title']['id'] = json_datas[index]['id']['videoId'];
                 row['description'] = json_datas[index]['snippet']['description'];
                 this.rowData.push(row);
             }
             this.gridApi.setRowData(this.rowData);
         })
+    }
+
+    public customCellRendererFunc(params) {
+        console.log(params);
+        let videoTitle = params.value.value;
+        let videoId = params.value.id;
+        return "<a href='https://www.youtube.com/watch?v=" + videoId + "'>" + videoTitle+ "</a>";
     }
 
 }
