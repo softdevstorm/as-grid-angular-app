@@ -10,6 +10,17 @@
     [getContextMenuItems]="getContextMenuItems"
     [overlayLoadingTemplate]="overlayLoadingTemplate"
     [rowData]="rowData"
+    [statusBar]="statusBar"
     (gridReady)="onGridReady($event)"
     >
 </ag-grid-angular>
+<div class="status-bar">
+	<div class="record-count">
+		<span class="label">Total rows &nbsp;</span>
+		<span class="total-count">{{recordCount}}</span>
+	</div>
+	<div class="select-row-count">
+		<span class="label">Selected &nbsp;</span>
+		<span class="total-count">{{recordCount}}</span>
+	</div>
+</div>

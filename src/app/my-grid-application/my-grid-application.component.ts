@@ -19,8 +19,11 @@ export class MyGridApplicationComponent implements OnInit {
     private overlayLoadingTemplate;
     // private overlayNoRowsTemplate;
     private columnDefs;
-    private rowSelection ;
+    private rowSelection;
+    private statusBar;
     private rowData = [];
+
+    private recordCount = 0;
 
     title = 'grid app';
 
@@ -65,9 +68,26 @@ export class MyGridApplicationComponent implements OnInit {
 
         this.rowSelection = "multiple";
 
-
         this.overlayLoadingTemplate = '<span class="ag-overlay-loading-center">Please wait while your rows are loading</span>';
         // this.overlayNoRowsTemplate = "<span style=\"padding: 10px; border: 2px solid #444; background: lightgoldenrodyellow;\">This is a custom 'no rows' overlay</span>";
+
+        // ag Grid statusbar
+        // this.statusBar = {
+        //     statusPanels: [{
+        //             statusPanel: "agTotalRowCountComponent",
+        //             align: "left"
+        //         },
+        //         {
+        //             statusPanel: "agFilteredRowCountComponent"
+        //         },
+        //         {
+        //             statusPanel: "agSelectedRowCountComponent"
+        //         },
+        //         {
+        //             statusPanel: "agAggregationComponent"
+        //         }
+        //     ]
+        // };
     }
 
     onGridReady(params) {
@@ -84,6 +104,7 @@ export class MyGridApplicationComponent implements OnInit {
     public loadData() {
         this.dataService.getData().subscribe(data => {
             let json_datas = data.items;
+            this.recordCount = json_datas.length;
             for (var index in json_datas) {
                 let row = {};
                 row['thumbnails'] = json_datas[index]['snippet']['thumbnails']['default']['url'];
@@ -104,6 +125,7 @@ export class MyGridApplicationComponent implements OnInit {
         return "<a href='https://www.youtube.com/watch?v=" + videoId + "'>" + videoTitle+ "</a>";
     }
 
+    // custom context to add open in new tab
     getContextMenuItems(params) {
         var result: any = [
             "copy",
