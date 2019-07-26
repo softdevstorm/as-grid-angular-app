@@ -3,7 +3,6 @@ import "ag-grid-enterprise";
 import { GridOptions } from "ag-grid-community";
 import { AgGridAngular } from 'ag-grid-angular';
 import { HttpClient } from '@angular/common/http';
-import { RedComponentComponent } from "../red-component/red-component.component";
 import { DataService } from "../@services/get-data.service";
 import * as $ from 'jquery';
 
