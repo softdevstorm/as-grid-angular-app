@@ -1,16 +1,17 @@
 <ag-grid-angular 
-    style="width: auto; height: 500px;" 
+	#asGrid
+    style="width: auto; height: 560px;" 
     id="myGrid"
     class="ag-theme-balham"
     [columnDefs]="columnDefs"
     [defaultColDef]="defaultColDef"
-    [rowSelection]="rowSelection"
-    [rowMultiSelectWithClick]="true"
     [allowContextMenuWithControlKey]="true"
     [getContextMenuItems]="getContextMenuItems"
+    [rowModelType]="rowModelType"
     [overlayLoadingTemplate]="overlayLoadingTemplate"
     [rowData]="rowData"
-    [statusBar]="statusBar"
+    [animateRows]="true"
+    [getRowHeight]="getRowHeight"
     (gridReady)="onGridReady($event)"
     >
 </ag-grid-angular>
@@ -21,6 +22,6 @@
 	</div>
 	<div class="select-row-count">
 		<span class="label">Selected &nbsp;</span>
-		<span class="total-count">{{recordCount}}</span>
+		<span class="total-count">{{selectedCount}}</span>
 	</div>
 </div>
